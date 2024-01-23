@@ -1,1 +1,1 @@
-This repo contains the unity project to complete project 'Unity - Scripting' of Holberton School's AR/VR specialization.
+This repo contains the unity project to complete project 'Unity - UI' of Holberton School's AR/VR specialization.
