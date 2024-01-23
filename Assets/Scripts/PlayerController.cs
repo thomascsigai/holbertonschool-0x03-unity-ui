@@ -42,11 +42,15 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         controls.movementActionMap.Enable();
+        controls.UIInputsActionMap.Enable();
+
+        controls.UIInputsActionMap.BackToMenu.performed += ctx => SceneManager.LoadScene("menu");
     }
 
     private void OnDisable()
     {
         controls.movementActionMap.Disable();
+        controls.UIInputsActionMap.Disable();
     }
 
     private void OnTriggerEnter(Collider other)

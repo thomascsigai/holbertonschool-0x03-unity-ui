@@ -149,6 +149,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""UIInputsActionMap"",
+            ""id"": ""ba85233f-8868-427e-99d0-91faebacfbd3"",
+            ""actions"": [
+                {
+                    ""name"": ""BackToMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca102813-d29c-4a87-a6d4-ce12b71b228e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""12a4f8a8-a0a6-4988-8066-49c8c8e70e11"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BackToMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -156,6 +184,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // movementActionMap
         m_movementActionMap = asset.FindActionMap("movementActionMap", throwIfNotFound: true);
         m_movementActionMap_Move = m_movementActionMap.FindAction("Move", throwIfNotFound: true);
+        // UIInputsActionMap
+        m_UIInputsActionMap = asset.FindActionMap("UIInputsActionMap", throwIfNotFound: true);
+        m_UIInputsActionMap_BackToMenu = m_UIInputsActionMap.FindAction("BackToMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -259,8 +290,58 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public MovementActionMapActions @movementActionMap => new MovementActionMapActions(this);
+
+    // UIInputsActionMap
+    private readonly InputActionMap m_UIInputsActionMap;
+    private List<IUIInputsActionMapActions> m_UIInputsActionMapActionsCallbackInterfaces = new List<IUIInputsActionMapActions>();
+    private readonly InputAction m_UIInputsActionMap_BackToMenu;
+    public struct UIInputsActionMapActions
+    {
+        private @PlayerControls m_Wrapper;
+        public UIInputsActionMapActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @BackToMenu => m_Wrapper.m_UIInputsActionMap_BackToMenu;
+        public InputActionMap Get() { return m_Wrapper.m_UIInputsActionMap; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIInputsActionMapActions set) { return set.Get(); }
+        public void AddCallbacks(IUIInputsActionMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIInputsActionMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIInputsActionMapActionsCallbackInterfaces.Add(instance);
+            @BackToMenu.started += instance.OnBackToMenu;
+            @BackToMenu.performed += instance.OnBackToMenu;
+            @BackToMenu.canceled += instance.OnBackToMenu;
+        }
+
+        private void UnregisterCallbacks(IUIInputsActionMapActions instance)
+        {
+            @BackToMenu.started -= instance.OnBackToMenu;
+            @BackToMenu.performed -= instance.OnBackToMenu;
+            @BackToMenu.canceled -= instance.OnBackToMenu;
+        }
+
+        public void RemoveCallbacks(IUIInputsActionMapActions instance)
+        {
+            if (m_Wrapper.m_UIInputsActionMapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIInputsActionMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIInputsActionMapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIInputsActionMapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIInputsActionMapActions @UIInputsActionMap => new UIInputsActionMapActions(this);
     public interface IMovementActionMapActions
     {
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IUIInputsActionMapActions
+    {
+        void OnBackToMenu(InputAction.CallbackContext context);
     }
 }

@@ -127,6 +127,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "UIInputsActionMap",
+            "id": "ba85233f-8868-427e-99d0-91faebacfbd3",
+            "actions": [
+                {
+                    "name": "BackToMenu",
+                    "type": "Button",
+                    "id": "ca102813-d29c-4a87-a6d4-ce12b71b228e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "12a4f8a8-a0a6-4988-8066-49c8c8e70e11",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BackToMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
