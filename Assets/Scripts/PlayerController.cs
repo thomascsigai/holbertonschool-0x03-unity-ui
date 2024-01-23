@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     public Text scoreText;
     public Text healthText;
+    public Text WinLoseText;
 
     private void Awake()
     {
@@ -65,7 +66,8 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.CompareTag("Goal"))
         {
-            Debug.Log("You win!");
+            WinText();
+            StartCoroutine(LoadScene(3));
         }
 
         if(other.gameObject.CompareTag("Teleporter"))
@@ -96,8 +98,8 @@ public class PlayerController : MonoBehaviour
     {
         if(health == 0)
         {
-            Debug.Log("Game Over!");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            LoseText();
+            StartCoroutine(LoadScene(3));
         }
     }
 
@@ -109,5 +111,27 @@ public class PlayerController : MonoBehaviour
     void HealthText()
     {
         healthText.text = "Health: " + health.ToString();
+    }
+
+    void WinText()
+    {
+        WinLoseText.transform.parent.gameObject.SetActive(true);
+        WinLoseText.text = "You Win!";
+        WinLoseText.color = Color.black;
+        WinLoseText.GetComponentInParent<Image>().color = Color.green;
+    }
+
+    void LoseText()
+    {
+        WinLoseText.transform.parent.gameObject.SetActive(true);
+        WinLoseText.text = "Game Over!";
+        WinLoseText.color = Color.white;
+        WinLoseText.GetComponentInParent<Image>().color = Color.red;
+    }
+
+    IEnumerator LoadScene(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
