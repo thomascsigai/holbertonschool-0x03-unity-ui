@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public int health = 5;
 
     public Text scoreText;
+    public Text healthText;
 
     private void Awake()
     {
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("Trap"))
         {
             health--;
-            Debug.Log($"Health: {health}");
+            HealthText();
         }
 
         if(other.gameObject.CompareTag("Goal"))
@@ -103,5 +104,10 @@ public class PlayerController : MonoBehaviour
     void ScoreText()
     {
         scoreText.text = "Score: " + score.ToString();
+    }
+
+    void HealthText()
+    {
+        healthText.text = "Health: " + health.ToString();
     }
 }
