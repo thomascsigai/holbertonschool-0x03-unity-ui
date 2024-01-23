@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private int score = 0;
 
     public int health = 5;
+
+    public Text scoreText;
 
     private void Awake()
     {
@@ -50,7 +53,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(other.gameObject);
             score++;
-            Debug.Log($"Score: {score}");
+            ScoreText();
         }
 
         if(other.gameObject.CompareTag("Trap"))
@@ -95,5 +98,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Game Over!");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+    void ScoreText()
+    {
+        scoreText.text = "Score: " + score.ToString();
     }
 }
